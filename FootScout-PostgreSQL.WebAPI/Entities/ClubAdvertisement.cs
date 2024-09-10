@@ -11,7 +11,7 @@ namespace FootScout_PostgreSQL.WebAPI.Entities
         [Required]
         public int PlayerPositionId { get; set; }
 
-        [ForeignKey("PlayerPositionId")]
+        [Required]
         public virtual PlayerPosition PlayerPosition { get; set; }
 
         [Required]

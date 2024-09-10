@@ -14,6 +14,9 @@ namespace FootScout_PostgreSQL.WebAPI.Repositories.Classes
             _dbContext = dbContext;
         }
 
+        public async Task<PlayerPosition> GetPlayerPosition(int positionId)
+            => await _dbContext.PlayerPositions.Where(p => p.Id == positionId).FirstOrDefaultAsync();
+
         public async Task<IEnumerable<PlayerPosition>> GetPlayerPositions()
             => await _dbContext.PlayerPositions.ToListAsync();
 

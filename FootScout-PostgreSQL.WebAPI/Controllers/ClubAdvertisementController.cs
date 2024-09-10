@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FootScout_PostgreSQL.WebAPI.Entities;
 using FootScout_PostgreSQL.WebAPI.Models.DTOs;
+using FootScout_PostgreSQL.WebAPI.Repositories.Classes;
 using FootScout_PostgreSQL.WebAPI.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +15,14 @@ namespace FootScout_PostgreSQL.WebAPI.Controllers
     {
         private readonly IClubAdvertisementRepository _clubAdvertisementRepository;
         private readonly ISalaryRangeRepository _salaryRangeRepository;
+        private readonly IPlayerPositionRepository _playerPositionRepository;
         private readonly IMapper _mapper;
 
-        public ClubAdvertisementController(IClubAdvertisementRepository clubAdvertisementRepository, ISalaryRangeRepository salaryRangeRepository, IMapper mapper)
+        public ClubAdvertisementController(IClubAdvertisementRepository clubAdvertisementRepository, ISalaryRangeRepository salaryRangeRepository, IPlayerPositionRepository playerPositionRepository, IMapper mapper)
         {
             _clubAdvertisementRepository = clubAdvertisementRepository;
             _salaryRangeRepository = salaryRangeRepository;
+            _playerPositionRepository = playerPositionRepository;
             _mapper = mapper;
         }
 
@@ -78,8 +81,11 @@ namespace FootScout_PostgreSQL.WebAPI.Controllers
 
             var clubAdvertisement = _mapper.Map<ClubAdvertisement>(dto);
             clubAdvertisement.SalaryRangeId = salaryRange.Id;
-            await _clubAdvertisementRepository.CreateClubAdvertisement(clubAdvertisement);
 
+            if (clubAdvertisement.PlayerPositionId != 0)
+                clubAdvertisement.PlayerPosition = await _playerPositionRepository.GetPlayerPosition(clubAdvertisement.PlayerPositionId);
+
+            await _clubAdvertisementRepository.CreateClubAdvertisement(clubAdvertisement);
             return Ok(clubAdvertisement);
         }
 
@@ -92,6 +98,9 @@ namespace FootScout_PostgreSQL.WebAPI.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            if (clubAdvertisement.PlayerPositionId != 0)
+                clubAdvertisement.PlayerPosition = await _playerPositionRepository.GetPlayerPosition(clubAdvertisement.PlayerPositionId);
 
             await _clubAdvertisementRepository.UpdateClubAdvertisement(clubAdvertisement);
             return NoContent();

@@ -4,6 +4,7 @@ namespace FootScout_PostgreSQL.WebAPI.Repositories.Interfaces
 {
     public interface IPlayerPositionRepository
     {
+        Task<PlayerPosition> GetPlayerPosition(int positionId);
         Task<IEnumerable<PlayerPosition>> GetPlayerPositions();
         Task<int> GetPlayerPositionCount();
         Task<string> GetPlayerPositionName(int positionId);

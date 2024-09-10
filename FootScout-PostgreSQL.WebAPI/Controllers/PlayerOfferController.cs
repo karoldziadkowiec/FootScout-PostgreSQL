@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FootScout_PostgreSQL.WebAPI.Entities;
 using FootScout_PostgreSQL.WebAPI.Models.DTOs;
+using FootScout_PostgreSQL.WebAPI.Repositories.Classes;
 using FootScout_PostgreSQL.WebAPI.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +14,17 @@ namespace FootScout.WebAPI.Controllers
     public class PlayerOfferController : ControllerBase
     {
         private readonly IPlayerOfferRepository _playerOfferRepository;
+        private readonly IOfferStatusRepository _offerStatusRepository;
+        private readonly IPlayerPositionRepository _playerPositionRepository;
+        private readonly IPlayerFootRepository _playerFootRepository;
         private readonly IMapper _mapper;
 
-        public PlayerOfferController(IPlayerOfferRepository playerOfferRepository, IMapper mapper)
+        public PlayerOfferController(IPlayerOfferRepository playerOfferRepository, IOfferStatusRepository offerStatusRepository, IPlayerPositionRepository playerPositionRepository, IPlayerFootRepository playerFootRepository, IMapper mapper)
         {
             _playerOfferRepository = playerOfferRepository;
+            _offerStatusRepository = offerStatusRepository;
+            _playerPositionRepository = playerPositionRepository;
+            _playerFootRepository = playerFootRepository;
             _mapper = mapper;
         }
 
@@ -72,8 +79,17 @@ namespace FootScout.WebAPI.Controllers
                 return BadRequest("Invalid dto data.");
 
             var playerOffer = _mapper.Map<PlayerOffer>(dto);
-            await _playerOfferRepository.CreatePlayerOffer(playerOffer);
 
+            if (playerOffer.OfferStatusId != 0)
+                playerOffer.OfferStatus = await _offerStatusRepository.GetOfferStatus(playerOffer.OfferStatusId);
+
+            if (playerOffer.PlayerPositionId != 0)
+                playerOffer.PlayerPosition = await _playerPositionRepository.GetPlayerPosition(playerOffer.PlayerPositionId);
+
+            if (playerOffer.PlayerFootId != 0)
+                playerOffer.PlayerFoot = await _playerFootRepository.GetPlayerFoot(playerOffer.PlayerFootId);
+
+            await _playerOfferRepository.CreatePlayerOffer(playerOffer);
             return Ok(playerOffer);
         }
 
@@ -86,6 +102,15 @@ namespace FootScout.WebAPI.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            if (playerOffer.OfferStatusId != 0)
+                playerOffer.OfferStatus = await _offerStatusRepository.GetOfferStatus(playerOffer.OfferStatusId);
+
+            if (playerOffer.PlayerPositionId != 0)
+                playerOffer.PlayerPosition = await _playerPositionRepository.GetPlayerPosition(playerOffer.PlayerPositionId);
+
+            if (playerOffer.PlayerFootId != 0)
+                playerOffer.PlayerFoot = await _playerFootRepository.GetPlayerFoot(playerOffer.PlayerFootId);
 
             await _playerOfferRepository.UpdatePlayerOffer(playerOffer);
             return NoContent();

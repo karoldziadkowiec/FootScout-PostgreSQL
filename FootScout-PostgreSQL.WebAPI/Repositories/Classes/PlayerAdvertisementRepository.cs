@@ -18,8 +18,6 @@ namespace FootScout_PostgreSQL.WebAPI.Repositories.Classes
         public async Task<PlayerAdvertisement> GetPlayerAdvertisement(int playerAdvertisementId)
         {
             return await _dbContext.PlayerAdvertisements
-                .Include(pa => pa.PlayerPosition)
-                .Include(pa => pa.PlayerFoot)
                 .Include(pa => pa.SalaryRange)
                 .Include(pa => pa.Player)
                 .FirstOrDefaultAsync(pa => pa.Id == playerAdvertisementId);
@@ -28,8 +26,6 @@ namespace FootScout_PostgreSQL.WebAPI.Repositories.Classes
         public async Task<IEnumerable<PlayerAdvertisement>> GetAllPlayerAdvertisements()
         {
             return await _dbContext.PlayerAdvertisements
-                .Include(pa => pa.PlayerPosition)
-                .Include(pa => pa.PlayerFoot)
                 .Include(pa => pa.SalaryRange)
                 .Include(pa => pa.Player)
                 .OrderByDescending(pa => pa.EndDate)
@@ -39,8 +35,6 @@ namespace FootScout_PostgreSQL.WebAPI.Repositories.Classes
         public async Task<IEnumerable<PlayerAdvertisement>> GetActivePlayerAdvertisements()
         {
             return await _dbContext.PlayerAdvertisements
-                .Include(pa => pa.PlayerPosition)
-                .Include(pa => pa.PlayerFoot)
                 .Include(pa => pa.SalaryRange)
                 .Include(pa => pa.Player)
                 .Where(pa => pa.EndDate >= DateTime.UtcNow)
@@ -56,8 +50,6 @@ namespace FootScout_PostgreSQL.WebAPI.Repositories.Classes
         public async Task<IEnumerable<PlayerAdvertisement>> GetInactivePlayerAdvertisements()
         {
             return await _dbContext.PlayerAdvertisements
-                .Include(pa => pa.PlayerPosition)
-                .Include(pa => pa.PlayerFoot)
                 .Include(pa => pa.SalaryRange)
                 .Include(pa => pa.Player)
                 .Where(pa => pa.EndDate < DateTime.UtcNow)

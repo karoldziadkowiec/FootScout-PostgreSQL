@@ -44,13 +44,13 @@ namespace FootScout_PostgreSQL.WebAPI.DbManager
                 .HasOne(ca => ca.ClubMember)
                 .WithMany()
                 .HasForeignKey(ca => ca.ClubMemberId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<ClubAdvertisement>()
                .HasOne(ca => ca.PlayerPosition)
                .WithMany()
                .HasForeignKey(ca => ca.PlayerPositionId)
-               .OnDelete(DeleteBehavior.Cascade);
+               .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<ClubAdvertisement>()
                 .HasOne(ca => ca.SalaryRange)
@@ -62,19 +62,19 @@ namespace FootScout_PostgreSQL.WebAPI.DbManager
                 .HasOne(caf => caf.ClubAdvertisement)
                 .WithMany()
                 .HasForeignKey(caf => caf.ClubAdvertisementId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<FavoriteClubAdvertisement>()
                 .HasOne(caf => caf.User)
                 .WithMany()
                 .HasForeignKey(caf => caf.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<ClubOffer>()
                 .HasOne(co => co.PlayerAdvertisement)
                 .WithMany()
                 .HasForeignKey(co => co.PlayerAdvertisementId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ClubOffer>()
                 .HasOne(co => co.OfferStatus)
@@ -116,13 +116,13 @@ namespace FootScout_PostgreSQL.WebAPI.DbManager
                .HasOne(paf => paf.PlayerAdvertisement)
                .WithMany()
                .HasForeignKey(paf => paf.PlayerAdvertisementId)
-               .OnDelete(DeleteBehavior.Restrict);
+               .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<FavoritePlayerAdvertisement>()
                 .HasOne(paf => paf.User)
                 .WithMany()
                 .HasForeignKey(paf => paf.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Message>()
                 .HasOne(m => m.Chat)
@@ -146,19 +146,19 @@ namespace FootScout_PostgreSQL.WebAPI.DbManager
                 .HasOne(pa => pa.Player)
                 .WithMany()
                 .HasForeignKey(pa => pa.PlayerId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PlayerAdvertisement>()
                .HasOne(pa => pa.PlayerPosition)
                .WithMany()
                .HasForeignKey(pa => pa.PlayerPositionId)
-               .OnDelete(DeleteBehavior.Cascade);
+               .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PlayerAdvertisement>()
                .HasOne(pa => pa.PlayerFoot)
                .WithMany()
                .HasForeignKey(pa => pa.PlayerFootId)
-               .OnDelete(DeleteBehavior.Cascade);
+               .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PlayerAdvertisement>()
                 .HasOne(pa => pa.SalaryRange)
@@ -170,7 +170,7 @@ namespace FootScout_PostgreSQL.WebAPI.DbManager
                 .HasOne(po => po.ClubAdvertisement)
                 .WithMany()
                 .HasForeignKey(po => po.ClubAdvertisementId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<PlayerOffer>()
                 .HasOne(po => po.OfferStatus)

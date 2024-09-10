@@ -17,13 +17,13 @@ namespace FootScout_PostgreSQL.WebAPI.Entities
         [Required]
         public int OfferStatusId { get; set; }
 
-        [ForeignKey("OfferStatusId")]
+        [Required]
         public virtual OfferStatus OfferStatus { get; set; }
 
         [Required]
         public int PlayerPositionId { get; set; }
 
-        [ForeignKey("PlayerPositionId")]
+        [Required]
         public virtual PlayerPosition PlayerPosition { get; set; }
 
         [Required]
@@ -35,7 +35,7 @@ namespace FootScout_PostgreSQL.WebAPI.Entities
         [Required]
         public int PlayerFootId { get; set; }
 
-        [ForeignKey("PlayerFootId")]
+        [Required]
         public virtual PlayerFoot PlayerFoot { get; set; }
 
         [Required]

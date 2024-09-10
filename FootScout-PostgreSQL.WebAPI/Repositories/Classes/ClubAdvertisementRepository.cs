@@ -18,7 +18,6 @@ namespace FootScout_PostgreSQL.WebAPI.Repositories.Classes
         public async Task<ClubAdvertisement> GetClubAdvertisement(int clubAdvertisementId)
         {
             return await _dbContext.ClubAdvertisements
-                .Include(ca => ca.PlayerPosition)
                 .Include(ca => ca.SalaryRange)
                 .Include(ca => ca.ClubMember)
                 .FirstOrDefaultAsync(ca => ca.Id == clubAdvertisementId);
@@ -27,7 +26,6 @@ namespace FootScout_PostgreSQL.WebAPI.Repositories.Classes
         public async Task<IEnumerable<ClubAdvertisement>> GetAllClubAdvertisements()
         {
             return await _dbContext.ClubAdvertisements
-                .Include(ca => ca.PlayerPosition)
                 .Include(ca => ca.SalaryRange)
                 .Include(ca => ca.ClubMember)
                 .OrderByDescending(ca => ca.EndDate)
@@ -37,7 +35,6 @@ namespace FootScout_PostgreSQL.WebAPI.Repositories.Classes
         public async Task<IEnumerable<ClubAdvertisement>> GetActiveClubAdvertisements()
         {
             return await _dbContext.ClubAdvertisements
-                .Include(ca => ca.PlayerPosition)
                 .Include(ca => ca.SalaryRange)
                 .Include(ca => ca.ClubMember)
                 .Where(ca => ca.EndDate >= DateTime.UtcNow)
@@ -53,7 +50,6 @@ namespace FootScout_PostgreSQL.WebAPI.Repositories.Classes
         public async Task<IEnumerable<ClubAdvertisement>> GetInactiveClubAdvertisements()
         {
             return await _dbContext.ClubAdvertisements
-                .Include(ca => ca.PlayerPosition)
                 .Include(ca => ca.SalaryRange)
                 .Include(ca => ca.ClubMember)
                 .Where(ca => ca.EndDate < DateTime.UtcNow)

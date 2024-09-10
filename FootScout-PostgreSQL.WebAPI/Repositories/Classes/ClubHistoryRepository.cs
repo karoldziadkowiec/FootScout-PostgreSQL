@@ -17,7 +17,6 @@ namespace FootScout_PostgreSQL.WebAPI.Repositories.Classes
         public async Task<ClubHistory> GetClubHistory(int clubHistoryId)
         {
             return await _dbContext.ClubHistories
-                .Include(ch=> ch.PlayerPosition)
                 .Include(ch => ch.Achievements)
                 .Include(ch => ch.Player)
                 .FirstOrDefaultAsync(ch => ch.Id == clubHistoryId);
@@ -26,7 +25,6 @@ namespace FootScout_PostgreSQL.WebAPI.Repositories.Classes
         public async Task<IEnumerable<ClubHistory>> GetAllClubHistory()
         {
             return await _dbContext.ClubHistories
-                .Include(ch => ch.PlayerPosition)
                 .Include(ch => ch.Achievements)
                 .Include(ch => ch.Player)
                 .ToListAsync();

@@ -13,11 +13,15 @@ namespace FootScout_PostgreSQL.WebAPI.Controllers
     public class ClubOfferController : ControllerBase
     {
         private readonly IClubOfferRepository _clubOfferRepository;
+        private readonly IOfferStatusRepository _offerStatusRepository;
+        private readonly IPlayerPositionRepository _playerPositionRepository;
         private readonly IMapper _mapper;
 
-        public ClubOfferController(IClubOfferRepository clubOfferRepository, IMapper mapper)
+        public ClubOfferController(IClubOfferRepository clubOfferRepository, IOfferStatusRepository offerStatusRepository, IPlayerPositionRepository playerPositionRepository, IMapper mapper)
         {
             _clubOfferRepository = clubOfferRepository;
+            _offerStatusRepository = offerStatusRepository;
+            _playerPositionRepository = playerPositionRepository;
             _mapper = mapper;
         }
 
@@ -72,8 +76,14 @@ namespace FootScout_PostgreSQL.WebAPI.Controllers
                 return BadRequest("Invalid dto data.");
 
             var clubOffer = _mapper.Map<ClubOffer>(dto);
-            await _clubOfferRepository.CreateClubOffer(clubOffer);
 
+            if (clubOffer.OfferStatusId != 0)
+                clubOffer.OfferStatus = await _offerStatusRepository.GetOfferStatus(clubOffer.OfferStatusId);
+
+            if (clubOffer.PlayerPositionId != 0)
+                clubOffer.PlayerPosition = await _playerPositionRepository.GetPlayerPosition(clubOffer.PlayerPositionId);
+
+            await _clubOfferRepository.CreateClubOffer(clubOffer);
             return Ok(clubOffer);
         }
 
@@ -86,6 +96,12 @@ namespace FootScout_PostgreSQL.WebAPI.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            if (clubOffer.OfferStatusId != 0)
+                clubOffer.OfferStatus = await _offerStatusRepository.GetOfferStatus(clubOffer.OfferStatusId);
+
+            if (clubOffer.PlayerPositionId != 0)
+                clubOffer.PlayerPosition = await _playerPositionRepository.GetPlayerPosition(clubOffer.PlayerPositionId);
 
             await _clubOfferRepository.UpdateClubOffer(clubOffer);
             return NoContent();

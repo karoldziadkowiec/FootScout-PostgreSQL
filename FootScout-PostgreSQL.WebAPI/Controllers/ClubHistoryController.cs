@@ -14,12 +14,14 @@ namespace FootScout.WebAPI.Controllers
     {
         private readonly IClubHistoryRepository _clubHistoryRepository;
         private readonly IAchievementsRepository _achievementsRepository;
+        private readonly IPlayerPositionRepository _playerPositionRepository;
         private readonly IMapper _mapper;
 
-        public ClubHistoryController(IClubHistoryRepository clubHistoryRepository, IAchievementsRepository achievementsRepository, IMapper mapper)
+        public ClubHistoryController(IClubHistoryRepository clubHistoryRepository, IAchievementsRepository achievementsRepository, IPlayerPositionRepository playerPositionRepository, IMapper mapper)
         {
             _clubHistoryRepository = clubHistoryRepository;
             _achievementsRepository = achievementsRepository;
+            _playerPositionRepository = playerPositionRepository;
             _mapper = mapper;
         }
 
@@ -62,8 +64,11 @@ namespace FootScout.WebAPI.Controllers
 
             var clubHistory = _mapper.Map<ClubHistory>(dto);
             clubHistory.AchievementsId = achievements.Id;
-            await _clubHistoryRepository.CreateClubHistory(clubHistory);
 
+            if (clubHistory.PlayerPositionId != 0)
+                clubHistory.PlayerPosition = await _playerPositionRepository.GetPlayerPosition(clubHistory.PlayerPositionId);
+
+            await _clubHistoryRepository.CreateClubHistory(clubHistory);
             return Ok(clubHistory);
         }
 
@@ -76,6 +81,9 @@ namespace FootScout.WebAPI.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            if (clubHistory.PlayerPositionId != 0)
+                clubHistory.PlayerPosition = await _playerPositionRepository.GetPlayerPosition(clubHistory.PlayerPositionId);
 
             await _clubHistoryRepository.UpdateClubHistory(clubHistory);
             return NoContent();

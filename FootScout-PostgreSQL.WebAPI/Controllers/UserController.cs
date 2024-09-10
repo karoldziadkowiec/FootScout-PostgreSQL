@@ -115,14 +115,19 @@ namespace FootScout_PostgreSQL.WebAPI.Controllers
         {
             try
             {
-                if (await _userRepository.GetUser(userId) == null)
+                var user = await _userRepository.GetUser(userId);
+                if (user == null)
                     return NotFound($"User {userId} not found");
 
                 await _userRepository.DeleteUser(userId);
             }
-            catch (Exception)
+            catch (InvalidOperationException ex)
             {
-                return NotFound();
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.InnerException?.Message ?? ex.Message}");
             }
             return NoContent();
         }

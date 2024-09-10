@@ -780,13 +780,13 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                     b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.User", "ClubMember")
                         .WithMany()
                         .HasForeignKey("ClubMemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.PlayerPosition", "PlayerPosition")
                         .WithMany()
                         .HasForeignKey("PlayerPositionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.SalaryRange", "SalaryRange")
@@ -846,7 +846,7 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                     b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.PlayerAdvertisement", "PlayerAdvertisement")
                         .WithMany()
                         .HasForeignKey("PlayerAdvertisementId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.PlayerPosition", "PlayerPosition")
@@ -869,13 +869,13 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                     b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.ClubAdvertisement", "ClubAdvertisement")
                         .WithMany()
                         .HasForeignKey("ClubAdvertisementId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ClubAdvertisement");
@@ -888,13 +888,13 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                     b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.PlayerAdvertisement", "PlayerAdvertisement")
                         .WithMany()
                         .HasForeignKey("PlayerAdvertisementId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("PlayerAdvertisement");
@@ -934,19 +934,19 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                     b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.PlayerFoot", "PlayerFoot")
                         .WithMany()
                         .HasForeignKey("PlayerFootId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.User", "Player")
                         .WithMany()
                         .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.PlayerPosition", "PlayerPosition")
                         .WithMany()
                         .HasForeignKey("PlayerPositionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.SalaryRange", "SalaryRange")
@@ -969,7 +969,7 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                     b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.ClubAdvertisement", "ClubAdvertisement")
                         .WithMany()
                         .HasForeignKey("ClubAdvertisementId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.OfferStatus", "OfferStatus")

@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FootScout_PostgreSQL.WebAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class PostgreSQLmigration : Migration
+    public partial class MigrationPostgreSQL : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -340,13 +340,13 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                         column: x => x.ClubMemberId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ClubAdvertisements_PlayerPositions_PlayerPositionId",
                         column: x => x.PlayerPositionId,
                         principalTable: "PlayerPositions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ClubAdvertisements_SalaryRanges_SalaryRangeId",
                         column: x => x.SalaryRangeId,
@@ -380,19 +380,19 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                         column: x => x.PlayerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PlayerAdvertisements_PlayerFeet_PlayerFootId",
                         column: x => x.PlayerFootId,
                         principalTable: "PlayerFeet",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PlayerAdvertisements_PlayerPositions_PlayerPositionId",
                         column: x => x.PlayerPositionId,
                         principalTable: "PlayerPositions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PlayerAdvertisements_SalaryRanges_SalaryRangeId",
                         column: x => x.SalaryRangeId,
@@ -453,13 +453,13 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_FavoriteClubAdvertisements_ClubAdvertisements_ClubAdvertise~",
                         column: x => x.ClubAdvertisementId,
                         principalTable: "ClubAdvertisements",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -493,7 +493,7 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                         column: x => x.ClubAdvertisementId,
                         principalTable: "ClubAdvertisements",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PlayerOffers_OfferStatuses_OfferStatusId",
                         column: x => x.OfferStatusId,
@@ -551,7 +551,7 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                         column: x => x.PlayerAdvertisementId,
                         principalTable: "PlayerAdvertisements",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ClubOffers_PlayerPositions_PlayerPositionId",
                         column: x => x.PlayerPositionId,
@@ -577,13 +577,13 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_FavoritePlayerAdvertisements_PlayerAdvertisements_PlayerAdv~",
                         column: x => x.PlayerAdvertisementId,
                         principalTable: "PlayerAdvertisements",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

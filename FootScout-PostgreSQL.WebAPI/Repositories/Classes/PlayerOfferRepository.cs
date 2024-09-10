@@ -19,12 +19,8 @@ namespace FootScout_PostgreSQL.WebAPI.Repositories.Classes
         {
             return await _dbContext.PlayerOffers
                 .Include(po => po.ClubAdvertisement)
-                .Include(ca => ca.ClubAdvertisement.PlayerPosition)
                 .Include(ca => ca.ClubAdvertisement.SalaryRange)
                 .Include(ca => ca.ClubAdvertisement.ClubMember)
-                .Include(po => po.OfferStatus)
-                .Include(po => po.PlayerPosition)
-                .Include(po => po.PlayerFoot)
                 .Include(po => po.Player)
                 .FirstOrDefaultAsync(po => po.Id == playerOfferId);
         }
@@ -33,12 +29,8 @@ namespace FootScout_PostgreSQL.WebAPI.Repositories.Classes
         {
             return await _dbContext.PlayerOffers
                 .Include(po => po.ClubAdvertisement)
-                .Include(ca => ca.ClubAdvertisement.PlayerPosition)
                 .Include(ca => ca.ClubAdvertisement.SalaryRange)
                 .Include(ca => ca.ClubAdvertisement.ClubMember)
-                .Include(po => po.OfferStatus)
-                .Include(po => po.PlayerPosition)
-                .Include(po => po.PlayerFoot)
                 .Include(po => po.Player)
                 .OrderByDescending(po => po.CreationDate)
                 .ToListAsync();
@@ -48,12 +40,8 @@ namespace FootScout_PostgreSQL.WebAPI.Repositories.Classes
         {
             return await _dbContext.PlayerOffers
                 .Include(po => po.ClubAdvertisement)
-                .Include(ca => ca.ClubAdvertisement.PlayerPosition)
                 .Include(ca => ca.ClubAdvertisement.SalaryRange)
                 .Include(ca => ca.ClubAdvertisement.ClubMember)
-                .Include(po => po.OfferStatus)
-                .Include(po => po.PlayerPosition)
-                .Include(po => po.PlayerFoot)
                 .Include(po => po.Player)
                 .Where(po => po.ClubAdvertisement.EndDate >= DateTime.UtcNow)
                 .OrderByDescending(po => po.CreationDate)
@@ -69,12 +57,8 @@ namespace FootScout_PostgreSQL.WebAPI.Repositories.Classes
         {
             return await _dbContext.PlayerOffers
                 .Include(po => po.ClubAdvertisement)
-                .Include(ca => ca.ClubAdvertisement.PlayerPosition)
                 .Include(ca => ca.ClubAdvertisement.SalaryRange)
                 .Include(ca => ca.ClubAdvertisement.ClubMember)
-                .Include(po => po.OfferStatus)
-                .Include(po => po.PlayerPosition)
-                .Include(po => po.PlayerFoot)
                 .Include(po => po.Player)
                 .Where(po => po.ClubAdvertisement.EndDate < DateTime.UtcNow)
                 .OrderByDescending(po => po.CreationDate)

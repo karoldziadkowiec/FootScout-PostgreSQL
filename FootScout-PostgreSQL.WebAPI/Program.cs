@@ -12,6 +12,8 @@ using FootScout_PostgreSQL.WebAPI.Services.Interfaces;
 using FootScout_PostgreSQL.WebAPI.Services.Classes;
 using FootScout_PostgreSQL.WebAPI.Repositories.Classes;
 using FootScout_PostgreSQL.WebAPI.HubManager;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
+using Npgsql;
 
 namespace FootScout_PostgreSQL.WebAPI
 {
@@ -23,10 +25,14 @@ namespace FootScout_PostgreSQL.WebAPI
             var configuration = builder.Configuration;
 
             // PostgreSQL database connection
+            var connectionString = configuration.GetConnectionString("PostgreSQLConnectionString")
+                ?? throw new InvalidOperationException("PostgreSQL connection string is not found!");
+            var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
+            dataSourceBuilder.EnableDynamicJson();
+            var dataSource = dataSourceBuilder.Build();
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseNpgsql(configuration.GetConnectionString("PostgreSQLConnectionString") ??
-                    throw new InvalidOperationException("PostgreSQL connection string is not found!"));
+                options.UseNpgsql(dataSource);
             });
 
             // Identity with support for roles

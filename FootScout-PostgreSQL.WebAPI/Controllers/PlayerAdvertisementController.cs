@@ -14,12 +14,16 @@ namespace FootScout_PostgreSQL.WebAPI.Controllers
     {
         private readonly IPlayerAdvertisementRepository _playerAdvertisementRepository;
         private readonly ISalaryRangeRepository _salaryRangeRepository;
+        private readonly IPlayerPositionRepository _playerPositionRepository;
+        private readonly IPlayerFootRepository _playerFootRepository;
         private readonly IMapper _mapper;
 
-        public PlayerAdvertisementController(IPlayerAdvertisementRepository playerAdvertisementRepository, ISalaryRangeRepository salaryRangeRepository, IMapper mapper)
+        public PlayerAdvertisementController(IPlayerAdvertisementRepository playerAdvertisementRepository, ISalaryRangeRepository salaryRangeRepository, IPlayerPositionRepository playerPositionRepository, IPlayerFootRepository playerFootRepository, IMapper mapper)
         {
             _playerAdvertisementRepository = playerAdvertisementRepository;
             _salaryRangeRepository = salaryRangeRepository;
+            _playerPositionRepository = playerPositionRepository;
+            _playerFootRepository = playerFootRepository;
             _mapper = mapper;
         }
 
@@ -78,8 +82,14 @@ namespace FootScout_PostgreSQL.WebAPI.Controllers
 
             var playerAdvertisement = _mapper.Map<PlayerAdvertisement>(dto);
             playerAdvertisement.SalaryRangeId = salaryRange.Id;
-            await _playerAdvertisementRepository.CreatePlayerAdvertisement(playerAdvertisement);
 
+            if (playerAdvertisement.PlayerPositionId != 0)
+                playerAdvertisement.PlayerPosition = await _playerPositionRepository.GetPlayerPosition(playerAdvertisement.PlayerPositionId);
+
+            if (playerAdvertisement.PlayerFootId != 0)
+                playerAdvertisement.PlayerFoot = await _playerFootRepository.GetPlayerFoot(playerAdvertisement.PlayerFootId);
+
+            await _playerAdvertisementRepository.CreatePlayerAdvertisement(playerAdvertisement);
             return Ok(playerAdvertisement);
         }
 
@@ -92,6 +102,12 @@ namespace FootScout_PostgreSQL.WebAPI.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            if (playerAdvertisement.PlayerPositionId != 0)
+                playerAdvertisement.PlayerPosition = await _playerPositionRepository.GetPlayerPosition(playerAdvertisement.PlayerPositionId);
+
+            if (playerAdvertisement.PlayerFootId != 0)
+                playerAdvertisement.PlayerFoot = await _playerFootRepository.GetPlayerFoot(playerAdvertisement.PlayerFootId);
 
             await _playerAdvertisementRepository.UpdatePlayerAdvertisement(playerAdvertisement);
             return NoContent();
