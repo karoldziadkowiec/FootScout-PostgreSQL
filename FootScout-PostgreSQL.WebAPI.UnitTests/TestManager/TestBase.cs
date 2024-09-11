@@ -156,8 +156,8 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.TestManager
             // club history
             dbContext.ClubHistories.AddRange(new List<ClubHistory>
             {
-                new ClubHistory { Id = 1, PlayerPositionId = 15, ClubName = "FC Barcelona", League = "La Liga", Region = "Spain", StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(150), AchievementsId = 1, PlayerId = "leomessi"},
-                new ClubHistory { Id = 2, PlayerPositionId = 15, ClubName = "PSG", League = "Ligue1", Region = "France", StartDate = DateTime.UtcNow.AddDays(150), EndDate = DateTime.UtcNow.AddDays(300), AchievementsId = 2, PlayerId = "leomessi"},
+                new ClubHistory { Id = 1, PlayerPositionId = 15, PlayerPosition = new PlayerPosition { Id = 15, PositionName = "Striker" }, ClubName = "FC Barcelona", League = "La Liga", Region = "Spain", StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(150), AchievementsId = 1, PlayerId = "leomessi"},
+                new ClubHistory { Id = 2, PlayerPositionId = 15, PlayerPosition = new PlayerPosition { Id = 15, PositionName = "Striker" }, ClubName = "PSG", League = "Ligue1", Region = "France", StartDate = DateTime.UtcNow.AddDays(150), EndDate = DateTime.UtcNow.AddDays(300), AchievementsId = 2, PlayerId = "leomessi"},
             });
             await dbContext.SaveChangesAsync();
 
@@ -217,8 +217,8 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.TestManager
             // player advertisement
             dbContext.PlayerAdvertisements.AddRange(new List<PlayerAdvertisement>
             {
-                new PlayerAdvertisement { Id = 1, PlayerPositionId = 15, League = "Premier League", Region = "England", Age = 37, Height = 167, PlayerFootId = 3, SalaryRangeId = 1, CreationDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(30), PlayerId = "leomessi" },
-                new PlayerAdvertisement { Id = 2, PlayerPositionId = 14, League = "La Liga", Region = "Spain", Age = 37, Height = 167, PlayerFootId = 3, SalaryRangeId = 2, CreationDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(30), PlayerId = "leomessi" },
+                new PlayerAdvertisement { Id = 1, PlayerPositionId = 15, PlayerPosition = new PlayerPosition { Id = 15, PositionName = "Striker" }, League = "Premier League", Region = "England", Age = 37, Height = 167, PlayerFootId = 3, PlayerFoot = new PlayerFoot { Id = 3, FootName = "Right" }, SalaryRangeId = 1, CreationDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(30), PlayerId = "leomessi" },
+                new PlayerAdvertisement { Id = 2, PlayerPositionId = 14, PlayerPosition = new PlayerPosition { Id = 14, PositionName = "Centre-Forward" }, League = "La Liga", Region = "Spain", Age = 37, Height = 167, PlayerFootId = 3, PlayerFoot = new PlayerFoot { Id = 3, FootName = "Right" }, SalaryRangeId = 2, CreationDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(30), PlayerId = "leomessi" },
             });
             await dbContext.SaveChangesAsync();
 
@@ -237,8 +237,8 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.TestManager
             // club offer
             dbContext.ClubOffers.AddRange(new List<ClubOffer>
             {
-                new ClubOffer { Id = 1, PlayerAdvertisementId = 1, OfferStatusId = 1, PlayerPositionId = 15, ClubName = "Manchester City", League = "Premier League", Region = "England", Salary = 160, AdditionalInformation = "no info", CreationDate = DateTime.UtcNow, ClubMemberId = "pepguardiola" },
-                new ClubOffer { Id = 2, PlayerAdvertisementId = 2, OfferStatusId = 2, PlayerPositionId = 14, ClubName = "Real Madrid", League = "La Liga", Region = "Spain", Salary = 155, AdditionalInformation = "no info", CreationDate = DateTime.UtcNow, ClubMemberId = "pepguardiola" },
+                new ClubOffer { Id = 1, PlayerAdvertisementId = 1, OfferStatusId = 1, OfferStatus = new OfferStatus { Id = 1, StatusName = "Offered" }, PlayerPositionId = 15, PlayerPosition = new PlayerPosition { Id = 15, PositionName = "Striker" }, ClubName = "Manchester City", League = "Premier League", Region = "England", Salary = 160, AdditionalInformation = "no info", CreationDate = DateTime.UtcNow, ClubMemberId = "pepguardiola" },
+                new ClubOffer { Id = 2, PlayerAdvertisementId = 2, OfferStatusId = 2, OfferStatus = new OfferStatus { Id = 2, StatusName = "Accepted" }, PlayerPositionId = 14, PlayerPosition = new PlayerPosition { Id = 14, PositionName = "Centre-Forward" }, ClubName = "Real Madrid", League = "La Liga", Region = "Spain", Salary = 155, AdditionalInformation = "no info", CreationDate = DateTime.UtcNow, ClubMemberId = "pepguardiola" },
             });
             await dbContext.SaveChangesAsync();
         }
@@ -256,8 +256,8 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.TestManager
             // club advertisement
             dbContext.ClubAdvertisements.AddRange(new List<ClubAdvertisement>
             {
-                new ClubAdvertisement { Id = 1, PlayerPositionId = 15,  ClubName = "Manchester City", League = "Premier League", Region = "England", SalaryRangeId = 3, CreationDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(30), ClubMemberId = "pepguardiola" },
-                new ClubAdvertisement { Id = 2, PlayerPositionId = 14,  ClubName = "Manchester City", League = "Premier League", Region = "England", SalaryRangeId = 4, CreationDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(30), ClubMemberId = "pepguardiola" },
+                new ClubAdvertisement { Id = 1, PlayerPositionId = 15, PlayerPosition = new PlayerPosition { Id = 15, PositionName = "Striker" }, ClubName = "Manchester City", League = "Premier League", Region = "England", SalaryRangeId = 3, CreationDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(30), ClubMemberId = "pepguardiola" },
+                new ClubAdvertisement { Id = 2, PlayerPositionId = 14, PlayerPosition = new PlayerPosition { Id = 14, PositionName = "Centre-Forward" }, ClubName = "Manchester City", League = "Premier League", Region = "England", SalaryRangeId = 4, CreationDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(30), ClubMemberId = "pepguardiola" },
             });
             await dbContext.SaveChangesAsync();
 
@@ -276,8 +276,8 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.TestManager
             // player offer
             dbContext.PlayerOffers.AddRange(new List<PlayerOffer>
             {
-                new PlayerOffer { Id = 1, ClubAdvertisementId = 1, OfferStatusId = 1, PlayerPositionId = 15, Age = 37, Height = 167, PlayerFootId = 1, Salary = 160, AdditionalInformation = "no info", CreationDate = DateTime.UtcNow, PlayerId = "leomessi" },
-                new PlayerOffer { Id = 2, ClubAdvertisementId = 2, OfferStatusId = 2, PlayerPositionId = 14, Age = 37, Height = 167, PlayerFootId = 1, Salary = 155, AdditionalInformation = "no info", CreationDate = DateTime.UtcNow, PlayerId = "leomessi" },
+                new PlayerOffer { Id = 1, ClubAdvertisementId = 1, OfferStatusId = 1, OfferStatus = new OfferStatus { Id = 1, StatusName = "Offered" }, PlayerPositionId = 15, PlayerPosition = new PlayerPosition { Id = 15, PositionName = "Striker" }, Age = 37, Height = 167, PlayerFootId = 1, PlayerFoot = new PlayerFoot { Id = 1, FootName = "Left" }, Salary = 160, AdditionalInformation = "no info", CreationDate = DateTime.UtcNow, PlayerId = "leomessi" },
+                new PlayerOffer { Id = 2, ClubAdvertisementId = 2, OfferStatusId = 2, OfferStatus = new OfferStatus { Id = 2, StatusName = "Accepted" }, PlayerPositionId = 14, PlayerPosition = new PlayerPosition { Id = 14, PositionName = "Centre-Forward" }, Age = 37, Height = 167, PlayerFootId = 1, PlayerFoot = new PlayerFoot { Id = 1, FootName = "Left" }, Salary = 155, AdditionalInformation = "no info", CreationDate = DateTime.UtcNow, PlayerId = "leomessi" },
             });
             await dbContext.SaveChangesAsync();
         }

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FootScout_PostgreSQL.WebAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240910203207_Migration-PostgreSQL")]
+    [Migration("20240911091805_Migration-PostgreSQL")]
     partial class MigrationPostgreSQL
     {
         /// <inheritdoc />
@@ -105,6 +105,10 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)");
 
+                    b.Property<string>("PlayerPosition")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
                     b.Property<int>("PlayerPositionId")
                         .HasColumnType("integer");
 
@@ -119,8 +123,6 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClubMemberId");
-
-                    b.HasIndex("PlayerPositionId");
 
                     b.HasIndex("SalaryRangeId");
 
@@ -155,6 +157,10 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("PlayerPosition")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
                     b.Property<int>("PlayerPositionId")
                         .HasColumnType("integer");
 
@@ -172,8 +178,6 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                         .IsUnique();
 
                     b.HasIndex("PlayerId");
-
-                    b.HasIndex("PlayerPositionId");
 
                     b.ToTable("ClubHistories");
                 });
@@ -208,11 +212,19 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)");
 
+                    b.Property<string>("OfferStatus")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
                     b.Property<int>("OfferStatusId")
                         .HasColumnType("integer");
 
                     b.Property<int>("PlayerAdvertisementId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("PlayerPosition")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
 
                     b.Property<int>("PlayerPositionId")
                         .HasColumnType("integer");
@@ -229,11 +241,7 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
 
                     b.HasIndex("ClubMemberId");
 
-                    b.HasIndex("OfferStatusId");
-
                     b.HasIndex("PlayerAdvertisementId");
-
-                    b.HasIndex("PlayerPositionId");
 
                     b.ToTable("ClubOffers");
                 });
@@ -367,12 +375,20 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)");
 
+                    b.Property<string>("PlayerFoot")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
                     b.Property<int>("PlayerFootId")
                         .HasColumnType("integer");
 
                     b.Property<string>("PlayerId")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("PlayerPosition")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
 
                     b.Property<int>("PlayerPositionId")
                         .HasColumnType("integer");
@@ -387,11 +403,7 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PlayerFootId");
-
                     b.HasIndex("PlayerId");
-
-                    b.HasIndex("PlayerPositionId");
 
                     b.HasIndex("SalaryRangeId");
 
@@ -441,8 +453,16 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                     b.Property<int>("Height")
                         .HasColumnType("integer");
 
+                    b.Property<string>("OfferStatus")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
                     b.Property<int>("OfferStatusId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("PlayerFoot")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
 
                     b.Property<int>("PlayerFootId")
                         .HasColumnType("integer");
@@ -450,6 +470,10 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                     b.Property<string>("PlayerId")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("PlayerPosition")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
 
                     b.Property<int>("PlayerPositionId")
                         .HasColumnType("integer");
@@ -461,13 +485,7 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
 
                     b.HasIndex("ClubAdvertisementId");
 
-                    b.HasIndex("OfferStatusId");
-
-                    b.HasIndex("PlayerFootId");
-
                     b.HasIndex("PlayerId");
-
-                    b.HasIndex("PlayerPositionId");
 
                     b.ToTable("PlayerOffers");
                 });
@@ -786,12 +804,6 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.PlayerPosition", "PlayerPosition")
-                        .WithMany()
-                        .HasForeignKey("PlayerPositionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.SalaryRange", "SalaryRange")
                         .WithMany()
                         .HasForeignKey("SalaryRangeId")
@@ -799,8 +811,6 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("ClubMember");
-
-                    b.Navigation("PlayerPosition");
 
                     b.Navigation("SalaryRange");
                 });
@@ -819,17 +829,9 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.PlayerPosition", "PlayerPosition")
-                        .WithMany()
-                        .HasForeignKey("PlayerPositionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Achievements");
 
                     b.Navigation("Player");
-
-                    b.Navigation("PlayerPosition");
                 });
 
             modelBuilder.Entity("FootScout_PostgreSQL.WebAPI.Entities.ClubOffer", b =>
@@ -840,31 +842,15 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.OfferStatus", "OfferStatus")
-                        .WithMany()
-                        .HasForeignKey("OfferStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.PlayerAdvertisement", "PlayerAdvertisement")
                         .WithMany()
                         .HasForeignKey("PlayerAdvertisementId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.PlayerPosition", "PlayerPosition")
-                        .WithMany()
-                        .HasForeignKey("PlayerPositionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("ClubMember");
 
-                    b.Navigation("OfferStatus");
-
                     b.Navigation("PlayerAdvertisement");
-
-                    b.Navigation("PlayerPosition");
                 });
 
             modelBuilder.Entity("FootScout_PostgreSQL.WebAPI.Entities.FavoriteClubAdvertisement", b =>
@@ -934,21 +920,9 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
 
             modelBuilder.Entity("FootScout_PostgreSQL.WebAPI.Entities.PlayerAdvertisement", b =>
                 {
-                    b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.PlayerFoot", "PlayerFoot")
-                        .WithMany()
-                        .HasForeignKey("PlayerFootId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.User", "Player")
                         .WithMany()
                         .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.PlayerPosition", "PlayerPosition")
-                        .WithMany()
-                        .HasForeignKey("PlayerPositionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -959,10 +933,6 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Player");
-
-                    b.Navigation("PlayerFoot");
-
-                    b.Navigation("PlayerPosition");
 
                     b.Navigation("SalaryRange");
                 });
@@ -975,39 +945,15 @@ namespace FootScout_PostgreSQL.WebAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.OfferStatus", "OfferStatus")
-                        .WithMany()
-                        .HasForeignKey("OfferStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.PlayerFoot", "PlayerFoot")
-                        .WithMany()
-                        .HasForeignKey("PlayerFootId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.User", "Player")
                         .WithMany()
                         .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FootScout_PostgreSQL.WebAPI.Entities.PlayerPosition", "PlayerPosition")
-                        .WithMany()
-                        .HasForeignKey("PlayerPositionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("ClubAdvertisement");
 
-                    b.Navigation("OfferStatus");
-
                     b.Navigation("Player");
-
-                    b.Navigation("PlayerFoot");
-
-                    b.Navigation("PlayerPosition");
                 });
 
             modelBuilder.Entity("FootScout_PostgreSQL.WebAPI.Entities.Problem", b =>

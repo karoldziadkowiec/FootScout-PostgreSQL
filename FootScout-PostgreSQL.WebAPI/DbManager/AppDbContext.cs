@@ -1,6 +1,7 @@
 ﻿using FootScout_PostgreSQL.WebAPI.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace FootScout_PostgreSQL.WebAPI.DbManager
 {
@@ -47,10 +48,12 @@ namespace FootScout_PostgreSQL.WebAPI.DbManager
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<ClubAdvertisement>()
-               .HasOne(ca => ca.PlayerPosition)
-               .WithMany()
-               .HasForeignKey(ca => ca.PlayerPositionId)
-               .OnDelete(DeleteBehavior.Restrict);
+               .Property(ca => ca.PlayerPosition)
+               .HasConversion(
+                    v => JsonConvert.SerializeObject(v),
+                    v => JsonConvert.DeserializeObject<PlayerPosition>(v)
+                )
+               .HasColumnType("jsonb");
 
             modelBuilder.Entity<ClubAdvertisement>()
                 .HasOne(ca => ca.SalaryRange)
@@ -77,16 +80,20 @@ namespace FootScout_PostgreSQL.WebAPI.DbManager
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ClubOffer>()
-                .HasOne(co => co.OfferStatus)
-                .WithMany()
-                .HasForeignKey(co => co.OfferStatusId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .Property(ca => ca.OfferStatus)
+                .HasConversion(
+                    v => JsonConvert.SerializeObject(v),
+                    v => JsonConvert.DeserializeObject<OfferStatus>(v)
+                )
+                .HasColumnType("jsonb");
 
             modelBuilder.Entity<ClubOffer>()
-                .HasOne(co => co.PlayerPosition)
-                .WithMany()
-                .HasForeignKey(co => co.PlayerPositionId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .Property(ca => ca.PlayerPosition)
+                .HasConversion(
+                    v => JsonConvert.SerializeObject(v),
+                    v => JsonConvert.DeserializeObject<PlayerPosition>(v)
+                )
+                .HasColumnType("jsonb");
 
             modelBuilder.Entity<ClubOffer>()
                 .HasOne(co => co.ClubMember)
@@ -101,10 +108,12 @@ namespace FootScout_PostgreSQL.WebAPI.DbManager
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ClubHistory>()
-               .HasOne(ca => ca.PlayerPosition)
-               .WithMany()
-               .HasForeignKey(ca => ca.PlayerPositionId)
-               .OnDelete(DeleteBehavior.Cascade);
+               .Property(ca => ca.PlayerPosition)
+               .HasConversion(
+                    v => JsonConvert.SerializeObject(v),
+                    v => JsonConvert.DeserializeObject<PlayerPosition>(v)
+                )
+               .HasColumnType("jsonb");
 
             modelBuilder.Entity<ClubHistory>()
                 .HasOne(ch => ch.Player)
@@ -149,16 +158,20 @@ namespace FootScout_PostgreSQL.WebAPI.DbManager
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PlayerAdvertisement>()
-               .HasOne(pa => pa.PlayerPosition)
-               .WithMany()
-               .HasForeignKey(pa => pa.PlayerPositionId)
-               .OnDelete(DeleteBehavior.Restrict);
+                .Property(ca => ca.PlayerPosition)
+                .HasConversion(
+                    v => JsonConvert.SerializeObject(v),
+                    v => JsonConvert.DeserializeObject<PlayerPosition>(v)
+                )
+                .HasColumnType("jsonb");
 
             modelBuilder.Entity<PlayerAdvertisement>()
-               .HasOne(pa => pa.PlayerFoot)
-               .WithMany()
-               .HasForeignKey(pa => pa.PlayerFootId)
-               .OnDelete(DeleteBehavior.Restrict);
+                .Property(ca => ca.PlayerFoot)
+                .HasConversion(
+                    v => JsonConvert.SerializeObject(v),
+                    v => JsonConvert.DeserializeObject<PlayerFoot>(v)
+                )
+                .HasColumnType("jsonb");
 
             modelBuilder.Entity<PlayerAdvertisement>()
                 .HasOne(pa => pa.SalaryRange)
@@ -173,22 +186,28 @@ namespace FootScout_PostgreSQL.WebAPI.DbManager
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<PlayerOffer>()
-                .HasOne(po => po.OfferStatus)
-                .WithMany()
-                .HasForeignKey(po => po.OfferStatusId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .Property(ca => ca.OfferStatus)
+                .HasConversion(
+                    v => JsonConvert.SerializeObject(v),
+                    v => JsonConvert.DeserializeObject<OfferStatus>(v)
+                )
+                .HasColumnType("jsonb");
 
             modelBuilder.Entity<PlayerOffer>()
-                .HasOne(po => po.PlayerPosition)
-                .WithMany()
-                .HasForeignKey(po => po.PlayerPositionId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .Property(ca => ca.PlayerPosition)
+                .HasConversion(
+                    v => JsonConvert.SerializeObject(v),
+                    v => JsonConvert.DeserializeObject<PlayerPosition>(v)
+                )
+                .HasColumnType("jsonb");
 
             modelBuilder.Entity<PlayerOffer>()
-                .HasOne(po => po.PlayerFoot)
-                .WithMany()
-                .HasForeignKey(po => po.PlayerFootId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .Property(ca => ca.PlayerFoot)
+                .HasConversion(
+                    v => JsonConvert.SerializeObject(v),
+                    v => JsonConvert.DeserializeObject<PlayerFoot>(v)
+                )
+                .HasColumnType("jsonb");
 
             modelBuilder.Entity<PlayerOffer>()
                 .HasOne(po => po.Player)

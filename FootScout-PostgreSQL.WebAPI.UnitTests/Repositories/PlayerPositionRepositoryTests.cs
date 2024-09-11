@@ -8,6 +8,25 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
     public class PlayerPositionRepositoryTests : TestBase
     {
         [Fact]
+        public async Task GetPlayerPosition_ReturnsCorrectPlayerPosition()
+        {
+            // Arrange
+            var options = GetDbContextOptions("GetPlayerPosition_ReturnsCorrectPlayerPosition");
+
+            using (var dbContext = new AppDbContext(options))
+            {
+                await SeedPlayerPositionTestBase(dbContext);
+                var _playerPositionRepository = new PlayerPositionRepository(dbContext);
+
+                // Act
+                var result = await _playerPositionRepository.GetPlayerPosition(1);
+
+                // Assert
+                Assert.Equal("Goalkeeper", result.PositionName);
+            }
+        }
+
+        [Fact]
         public async Task GetPlayerPositions_ReturnsAllPlayerPositions()
         {
             // Arrange

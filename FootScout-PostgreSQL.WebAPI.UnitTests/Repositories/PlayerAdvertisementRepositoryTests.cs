@@ -143,11 +143,13 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
             {
                 Id = 1,
                 PlayerPositionId = 1,
+                PlayerPosition = new PlayerPosition { Id = 1, PositionName = "Goalkeeper" },
                 League = "Premier League",
                 Region = "England",
                 Age = 30,
                 Height = 197,
                 PlayerFootId = 3,
+                PlayerFoot = new PlayerFoot { Id = 3, FootName = "Right" },
                 SalaryRangeId = 1,
                 CreationDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(30),

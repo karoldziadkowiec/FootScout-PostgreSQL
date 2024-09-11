@@ -5,7 +5,7 @@ using FootScout_PostgreSQL.WebAPI.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FootScout.WebAPI.Controllers
+namespace FootScout_PostgreSQL.WebAPI.Controllers
 {
     [Route("api/club-history")]
     [Authorize(Policy = "AdminOrUserRights")]

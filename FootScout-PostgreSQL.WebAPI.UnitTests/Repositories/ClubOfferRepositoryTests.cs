@@ -157,6 +157,7 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
             {
                 PlayerAdvertisementId = 1,
                 PlayerPositionId = 5,
+                PlayerPosition = new PlayerPosition { Id = 5, PositionName = "Right-Wing-Back" },
                 ClubName = "New ClubName",
                 League = "New League",
                 Region = "New Region",

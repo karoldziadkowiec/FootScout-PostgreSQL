@@ -7,6 +7,25 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
     public class PlayerFootRepositoryTests : TestBase
     {
         [Fact]
+        public async Task GetPlayerFoot_ReturnsCorrectPlayerFoot()
+        {
+            // Arrange
+            var options = GetDbContextOptions("GetPlayerFoot_ReturnsCorrectPlayerFoot");
+
+            using (var dbContext = new AppDbContext(options))
+            {
+                await SeedPlayerFootTestBase(dbContext);
+                var _playerFootRepository = new PlayerFootRepository(dbContext);
+
+                // Act
+                var result = await _playerFootRepository.GetPlayerFoot(1);
+
+                // Assert
+                Assert.Equal("Left", result.FootName);
+            }
+        }
+
+        [Fact]
         public async Task GetPlayerFeet_ReturnsAllPlayerFeet()
         {
             // Arrange

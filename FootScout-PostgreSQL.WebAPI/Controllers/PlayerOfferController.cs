@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using FootScout_PostgreSQL.WebAPI.Entities;
 using FootScout_PostgreSQL.WebAPI.Models.DTOs;
-using FootScout_PostgreSQL.WebAPI.Repositories.Classes;
 using FootScout_PostgreSQL.WebAPI.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

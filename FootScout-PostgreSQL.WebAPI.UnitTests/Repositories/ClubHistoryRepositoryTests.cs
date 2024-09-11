@@ -82,6 +82,7 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
             {
                 Id = 3,
                 PlayerPositionId = 14,
+                PlayerPosition = new PlayerPosition { Id = 14, PositionName = "Centre-Forward" },
                 ClubName = "Inter Miami",
                 League = "MLS",
                 Region = "USA",

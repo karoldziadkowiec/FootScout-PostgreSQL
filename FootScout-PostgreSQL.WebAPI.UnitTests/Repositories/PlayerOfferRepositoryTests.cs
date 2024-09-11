@@ -156,9 +156,11 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
             {
                 ClubAdvertisementId = 2,
                 PlayerPositionId = 12,
+                PlayerPosition = new PlayerPosition { Id = 12, PositionName = "Left Midfield" },
                 Age = 37,
                 Height = 167,
                 PlayerFootId = 1,
+                PlayerFoot = new PlayerFoot { Id = 12, FootName = "Left" },
                 Salary = 180,
                 AdditionalInformation = "no info",
                 CreationDate = DateTime.Now,
