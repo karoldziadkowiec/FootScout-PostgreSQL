@@ -5,7 +5,9 @@ VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FootScout-PostgreSQL.WebAPI", "FootScout-PostgreSQL.WebAPI\FootScout-PostgreSQL.WebAPI.csproj", "{6E1E308E-733C-4A66-9733-802E3268C132}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootScout-PostgreSQL.WebAPI.UnitTests", "FootScout-PostgreSQL.WebAPI.UnitTests\FootScout-PostgreSQL.WebAPI.UnitTests.csproj", "{D7025CAB-3B50-4DD9-A751-255D924BF625}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FootScout-PostgreSQL.WebAPI.UnitTests", "FootScout-PostgreSQL.WebAPI.UnitTests\FootScout-PostgreSQL.WebAPI.UnitTests.csproj", "{D7025CAB-3B50-4DD9-A751-255D924BF625}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootScout-PostgreSQL.WebAPI.IntegrationTests", "FootScout-PostgreSQL.WebAPI.IntegrationTests\FootScout-PostgreSQL.WebAPI.IntegrationTests.csproj", "{A866F795-95F9-41A1-A707-BE7D62C95832}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{D7025CAB-3B50-4DD9-A751-255D924BF625}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7025CAB-3B50-4DD9-A751-255D924BF625}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7025CAB-3B50-4DD9-A751-255D924BF625}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A866F795-95F9-41A1-A707-BE7D62C95832}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A866F795-95F9-41A1-A707-BE7D62C95832}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A866F795-95F9-41A1-A707-BE7D62C95832}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A866F795-95F9-41A1-A707-BE7D62C95832}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
