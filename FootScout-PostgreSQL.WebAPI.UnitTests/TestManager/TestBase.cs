@@ -233,7 +233,6 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.TestManager
 
         protected async Task SeedClubOfferTestBase(AppDbContext dbContext)
         {
-
             // club offer
             dbContext.ClubOffers.AddRange(new List<ClubOffer>
             {
@@ -272,7 +271,6 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.TestManager
 
         protected async Task SeedPlayerOfferTestBase(AppDbContext dbContext)
         {
-
             // player offer
             dbContext.PlayerOffers.AddRange(new List<PlayerOffer>
             {

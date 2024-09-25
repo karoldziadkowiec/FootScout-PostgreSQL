@@ -79,7 +79,7 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
 
                 // Assert
                 Assert.NotNull(result);
-                Assert.All(result, ad => Assert.True(ad.EndDate >= DateTime.Now));
+                Assert.All(result, ad => Assert.True(ad.EndDate >= DateTime.UtcNow));
             }
         }
 
@@ -103,7 +103,7 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
 
                 // Assert
                 var expectedCount = await dbContext.PlayerAdvertisements
-                    .Where(pa => pa.EndDate >= DateTime.Now)
+                    .Where(pa => pa.EndDate >= DateTime.UtcNow)
                     .CountAsync();
 
                 Assert.Equal(expectedCount, result);
@@ -130,7 +130,7 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
 
                 // Assert
                 Assert.NotNull(result);
-                Assert.All(result, ad => Assert.True(ad.EndDate < DateTime.Now));
+                Assert.All(result, ad => Assert.True(ad.EndDate < DateTime.UtcNow));
             }
         }
 
@@ -151,8 +151,8 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
                 PlayerFootId = 3,
                 PlayerFoot = new PlayerFoot { Id = 3, FootName = "Right" },
                 SalaryRangeId = 1,
-                CreationDate = DateTime.Now,
-                EndDate = DateTime.Now.AddDays(30),
+                CreationDate = DateTime.UtcNow,
+                EndDate = DateTime.UtcNow.AddDays(30),
                 PlayerId = "somebody"
             };
 
@@ -168,8 +168,8 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
                 Assert.NotNull(result);
                 Assert.Equal(newAd.League, result.League);
                 Assert.Equal(newAd.Region, result.Region);
-                Assert.True(result.CreationDate <= DateTime.Now);
-                Assert.True(result.EndDate > DateTime.Now);
+                Assert.True(result.CreationDate <= DateTime.UtcNow);
+                Assert.True(result.EndDate > DateTime.UtcNow);
             }
         }
 

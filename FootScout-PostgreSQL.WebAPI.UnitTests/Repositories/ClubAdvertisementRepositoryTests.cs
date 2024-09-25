@@ -80,7 +80,7 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
 
                 // Assert
                 Assert.NotNull(result);
-                Assert.All(result, ad => Assert.True(ad.EndDate >= DateTime.Now));
+                Assert.All(result, ad => Assert.True(ad.EndDate >= DateTime.UtcNow));
             }
         }
 
@@ -104,7 +104,7 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
 
                 // Assert
                 var expectedCount = await dbContext.ClubAdvertisements
-                    .Where(pa => pa.EndDate >= DateTime.Now)
+                    .Where(pa => pa.EndDate >= DateTime.UtcNow)
                     .CountAsync();
 
                 Assert.Equal(expectedCount, result);
@@ -131,7 +131,7 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
 
                 // Assert
                 Assert.NotNull(result);
-                Assert.All(result, ad => Assert.True(ad.EndDate < DateTime.Now));
+                Assert.All(result, ad => Assert.True(ad.EndDate < DateTime.UtcNow));
             }
         }
 
@@ -149,8 +149,8 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
                 League = "Premier League",
                 Region = "England",
                 SalaryRangeId = 1,
-                CreationDate = DateTime.Now,
-                EndDate = DateTime.Now.AddDays(30),
+                CreationDate = DateTime.UtcNow,
+                EndDate = DateTime.UtcNow.AddDays(30),
                 ClubMemberId = "pepguardiola"
             };
 
@@ -167,8 +167,8 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
                 Assert.Equal(newAd.ClubName, result.ClubName);
                 Assert.Equal(newAd.League, result.League);
                 Assert.Equal(newAd.Region, result.Region);
-                Assert.True(result.CreationDate <= DateTime.Now);
-                Assert.True(result.EndDate > DateTime.Now);
+                Assert.True(result.CreationDate <= DateTime.UtcNow);
+                Assert.True(result.EndDate > DateTime.UtcNow);
             }
         }
 

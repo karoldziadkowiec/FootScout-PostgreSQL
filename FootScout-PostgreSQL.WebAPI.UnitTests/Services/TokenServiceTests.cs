@@ -31,8 +31,8 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Services
 
                 // Assert
                 Assert.NotNull(token);
-                Assert.True(token.ValidTo > DateTime.Now);
-                Assert.True(token.ValidTo <= DateTime.Now.AddDays(1));
+                Assert.True(token.ValidTo > DateTime.UtcNow);
+                Assert.True(token.ValidTo <= DateTime.UtcNow.AddDays(1));
             }
         }
     }

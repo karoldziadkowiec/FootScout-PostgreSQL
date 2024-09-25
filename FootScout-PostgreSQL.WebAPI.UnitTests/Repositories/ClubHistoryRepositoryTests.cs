@@ -86,8 +86,8 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
                 ClubName = "Inter Miami",
                 League = "MLS",
                 Region = "USA",
-                StartDate = DateTime.Now.AddDays(300),
-                EndDate = DateTime.Now.AddDays(450),
+                StartDate = DateTime.UtcNow.AddDays(300),
+                EndDate = DateTime.UtcNow.AddDays(450),
                 AchievementsId = 3,
                 PlayerId = "leomessi"
             };

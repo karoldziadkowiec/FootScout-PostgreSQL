@@ -71,8 +71,8 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
 
             var users = new List<User>
             {
-                new User { Id = "leomessi", UserName = "leomessi", CreationDate = DateTime.Now },
-                new User { Id = "pepguardiola", UserName = "pepguardiola", CreationDate = DateTime.Now.AddDays(-1) }
+                new User { Id = "leomessi", UserName = "leomessi", CreationDate = DateTime.UtcNow },
+                new User { Id = "pepguardiola", UserName = "pepguardiola", CreationDate = DateTime.UtcNow.AddDays(-1) }
             };
 
             mockUserManager.Setup(um => um.GetUsersInRoleAsync("User")).ReturnsAsync(users);
@@ -103,8 +103,8 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
 
             var users = new List<User>
             {
-                new User { Id = "admin0", UserName = "admin0", CreationDate = DateTime.Now },
-                new User { Id = "admin1", UserName = "admin1", CreationDate = DateTime.Now.AddDays(-1) }
+                new User { Id = "admin0", UserName = "admin0", CreationDate = DateTime.UtcNow },
+                new User { Id = "admin1", UserName = "admin1", CreationDate = DateTime.UtcNow.AddDays(-1) }
             };
 
             mockUserManager.Setup(um => um.GetUsersInRoleAsync("Admin")).ReturnsAsync(users);
@@ -381,7 +381,7 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
                 // Assert
                 Assert.NotNull(result);
                 Assert.All(result, pa => Assert.Equal(userId, pa.PlayerId));
-                Assert.All(result, pa => Assert.True(pa.EndDate >= DateTime.Now));
+                Assert.All(result, pa => Assert.True(pa.EndDate >= DateTime.UtcNow));
             }
         }
 
@@ -407,7 +407,7 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
                 // Assert
                 Assert.NotNull(result);
                 Assert.All(result, pa => Assert.Equal(userId, pa.PlayerId));
-                Assert.All(result, pa => Assert.True(pa.EndDate < DateTime.Now));
+                Assert.All(result, pa => Assert.True(pa.EndDate < DateTime.UtcNow));
             }
         }
 
@@ -459,7 +459,7 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
                 // Assert
                 Assert.NotNull(result);
                 Assert.All(result, pa => Assert.Equal(userId, pa.UserId));
-                Assert.All(result, pa => Assert.True(pa.PlayerAdvertisement.EndDate >= DateTime.Now));
+                Assert.All(result, pa => Assert.True(pa.PlayerAdvertisement.EndDate >= DateTime.UtcNow));
             }
         }
 
@@ -485,7 +485,7 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
                 // Assert
                 Assert.NotNull(result);
                 Assert.All(result, pa => Assert.Equal(userId, pa.UserId));
-                Assert.All(result, pa => Assert.True(pa.PlayerAdvertisement.EndDate < DateTime.Now));
+                Assert.All(result, pa => Assert.True(pa.PlayerAdvertisement.EndDate < DateTime.UtcNow));
             }
         }
 
@@ -597,7 +597,7 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
                 // Assert
                 Assert.NotNull(result);
                 Assert.All(result, ca => Assert.Equal(userId, ca.ClubMemberId));
-                Assert.All(result, ca => Assert.True(ca.EndDate >= DateTime.Now));
+                Assert.All(result, ca => Assert.True(ca.EndDate >= DateTime.UtcNow));
             }
         }
 
@@ -623,7 +623,7 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
                 // Assert
                 Assert.NotNull(result);
                 Assert.All(result, ca => Assert.Equal(userId, ca.ClubMemberId));
-                Assert.All(result, ca => Assert.True(ca.EndDate < DateTime.Now));
+                Assert.All(result, ca => Assert.True(ca.EndDate < DateTime.UtcNow));
             }
         }
 
@@ -675,7 +675,7 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
                 // Assert
                 Assert.NotNull(result);
                 Assert.All(result, ca => Assert.Equal(userId, ca.UserId));
-                Assert.All(result, ca => Assert.True(ca.ClubAdvertisement.EndDate >= DateTime.Now));
+                Assert.All(result, ca => Assert.True(ca.ClubAdvertisement.EndDate >= DateTime.UtcNow));
             }
         }
 
@@ -701,7 +701,7 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
                 // Assert
                 Assert.NotNull(result);
                 Assert.All(result, ca => Assert.Equal(userId, ca.UserId));
-                Assert.All(result, ca => Assert.True(ca.ClubAdvertisement.EndDate < DateTime.Now));
+                Assert.All(result, ca => Assert.True(ca.ClubAdvertisement.EndDate < DateTime.UtcNow));
             }
         }
 

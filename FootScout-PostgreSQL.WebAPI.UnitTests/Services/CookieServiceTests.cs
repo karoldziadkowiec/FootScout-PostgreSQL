@@ -18,7 +18,7 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Services
             var token = new JwtSecurityToken(
                 issuer: "http://localhost",
                 audience: "http://localhost",
-                expires: DateTime.Now.AddDays(1),
+                expires: DateTime.UtcNow.AddDays(1),
                 claims: new List<Claim>(),
                 signingCredentials: new SigningCredentials(
                     new SymmetricSecurityKey(Encoding.UTF8.GetBytes("test_key")),

@@ -149,7 +149,7 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
                 Id = 1,
                 Title = "Problem 1",
                 Description = "Desc 1",
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.UtcNow,
                 IsSolved = false,
                 RequesterId = "leomessi"
             };
@@ -179,7 +179,7 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
                 Id = 1,
                 Title = "Problem 1",
                 Description = "Desc 1",
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.UtcNow,
                 IsSolved = true,
                 RequesterId = "leomessi"
             };

@@ -90,7 +90,7 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
 
                 // Assert
                 Assert.NotNull(result);
-                Assert.All(result, co => Assert.True(co.ClubAdvertisement.EndDate >= DateTime.Now));
+                Assert.All(result, co => Assert.True(co.ClubAdvertisement.EndDate >= DateTime.UtcNow));
             }
         }
 
@@ -143,7 +143,7 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
 
                 // Assert
                 Assert.NotNull(result);
-                Assert.All(result, co => Assert.True(co.ClubAdvertisement.EndDate < DateTime.Now));
+                Assert.All(result, co => Assert.True(co.ClubAdvertisement.EndDate < DateTime.UtcNow));
             }
         }
 
@@ -163,7 +163,7 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
                 PlayerFoot = new PlayerFoot { Id = 12, FootName = "Left" },
                 Salary = 180,
                 AdditionalInformation = "no info",
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.UtcNow,
                 PlayerId = "leomessi"
             };
 
@@ -219,6 +219,162 @@ namespace FootScout_PostgreSQL.WebAPI.UnitTests.Repositories
                     .FirstOrDefaultAsync(co => co.Id == playerOffer.Id);
                 Assert.NotNull(updatedOffer);
                 Assert.Equal(2, updatedOffer.OfferStatusId);
+            }
+        }
+
+        [Fact]
+        public async Task DeletePlayerOffer_DeletesPlayerOfferFromDatabase()
+        {
+            // Arrange
+            var options = GetDbContextOptions("DeletePlayerOffer_DeletesPlayerOfferFromDatabase");
+
+            using (var dbContext = new AppDbContext(options))
+            {
+                var userManager = CreateUserManager();
+                await SeedUserTestBase(dbContext, userManager);
+                await SeedPlayerPositionTestBase(dbContext);
+                await SeedPlayerFootTestBase(dbContext);
+                await SeedOfferStatusTestBase(dbContext);
+                await SeedClubAdvertisementTestBase(dbContext);
+                await SeedPlayerOfferTestBase(dbContext);
+
+                var _playerOfferRepository = new PlayerOfferRepository(dbContext);
+                var playerOffer = await dbContext.PlayerOffers.FirstAsync();
+                var playerOfferId = playerOffer.Id;
+
+                // Act
+                await _playerOfferRepository.DeletePlayerOffer(playerOfferId);
+
+                // Assert
+                var deletedOffer = await dbContext.PlayerOffers
+                    .FirstOrDefaultAsync(po => po.Id == playerOfferId);
+
+                Assert.Null(deletedOffer);
+            }
+        }
+
+        [Fact]
+        public async Task AcceptPlayerOffer_UpdatesOfferStatusToAccepted()
+        {
+            // Arrange
+            var options = GetDbContextOptions("AcceptPlayerOffer_UpdatesOfferStatusToAccepted");
+
+            using (var dbContext = new AppDbContext(options))
+            {
+                var userManager = CreateUserManager();
+                await SeedUserTestBase(dbContext, userManager);
+                await SeedPlayerPositionTestBase(dbContext);
+                await SeedPlayerFootTestBase(dbContext);
+                await SeedOfferStatusTestBase(dbContext);
+                await SeedClubAdvertisementTestBase(dbContext);
+                await SeedPlayerOfferTestBase(dbContext);
+
+                var _playerOfferRepository = new PlayerOfferRepository(dbContext);
+                var playerOffer = await dbContext.PlayerOffers.FirstAsync();
+
+                // Act
+                await _playerOfferRepository.AcceptPlayerOffer(playerOffer);
+
+                // Assert
+                var updatedOffer = await dbContext.PlayerOffers
+                    .FirstOrDefaultAsync(po => po.Id == playerOffer.Id);
+
+                Assert.NotNull(updatedOffer);
+                Assert.Equal("Accepted", updatedOffer.OfferStatus.StatusName);
+            }
+        }
+
+        [Fact]
+        public async Task RejectPlayerOffer_UpdatesOfferStatusToRejected()
+        {
+            // Arrange
+            var options = GetDbContextOptions("RejectPlayerOffer_UpdatesOfferStatusToRejected");
+
+            using (var dbContext = new AppDbContext(options))
+            {
+                var userManager = CreateUserManager();
+                await SeedUserTestBase(dbContext, userManager);
+                await SeedPlayerPositionTestBase(dbContext);
+                await SeedPlayerFootTestBase(dbContext);
+                await SeedOfferStatusTestBase(dbContext);
+                await SeedClubAdvertisementTestBase(dbContext);
+                await SeedPlayerOfferTestBase(dbContext);
+
+                var _playerOfferRepository = new PlayerOfferRepository(dbContext);
+                var playerOffer = await dbContext.PlayerOffers.FirstAsync();
+
+                // Act
+                await _playerOfferRepository.RejectPlayerOffer(playerOffer);
+
+                // Assert
+                var updatedOffer = await dbContext.PlayerOffers
+                    .FirstOrDefaultAsync(po => po.Id == playerOffer.Id);
+
+                Assert.NotNull(updatedOffer);
+                Assert.Equal("Rejected", updatedOffer.OfferStatus.StatusName);
+            }
+        }
+
+        [Fact]
+        public async Task GetPlayerOfferStatusId_ReturnsCorrectStatusId()
+        {
+            // Arrange
+            var options = GetDbContextOptions("GetPlayerOfferStatusId_ReturnsCorrectStatusId");
+
+            using (var dbContext = new AppDbContext(options))
+            {
+                var userManager = CreateUserManager();
+                await SeedUserTestBase(dbContext, userManager);
+                await SeedPlayerPositionTestBase(dbContext);
+                await SeedPlayerFootTestBase(dbContext);
+                await SeedOfferStatusTestBase(dbContext);
+                await SeedClubAdvertisementTestBase(dbContext);
+                await SeedPlayerOfferTestBase(dbContext);
+
+                var _playerOfferRepository = new PlayerOfferRepository(dbContext);
+                var playerOffer = await dbContext.PlayerOffers.FirstAsync();
+                var clubAdvertisementId = playerOffer.ClubAdvertisementId;
+                var userId = playerOffer.PlayerId;
+
+                // Act
+                var result = await _playerOfferRepository.GetPlayerOfferStatusId(clubAdvertisementId, userId);
+
+                // Assert
+                Assert.Equal(playerOffer.OfferStatusId, result);
+            }
+        }
+
+        [Fact]
+        public async Task ExportPlayerOffersToCsv_ReturnsValidCsvStream()
+        {
+            // Arrange
+            var options = GetDbContextOptions("ExportPlayerOffersToCsv_ReturnsValidCsvStream");
+
+            using (var dbContext = new AppDbContext(options))
+            {
+                var userManager = CreateUserManager();
+                await SeedUserTestBase(dbContext, userManager);
+                await SeedPlayerPositionTestBase(dbContext);
+                await SeedPlayerFootTestBase(dbContext);
+                await SeedOfferStatusTestBase(dbContext);
+                await SeedClubAdvertisementTestBase(dbContext);
+                await SeedPlayerOfferTestBase(dbContext);
+
+                var _playerOfferRepository = new PlayerOfferRepository(dbContext);
+
+                // Act
+                var csvStream = await _playerOfferRepository.ExportPlayerOffersToCsv();
+                csvStream.Position = 0;
+
+                using (var reader = new StreamReader(csvStream))
+                {
+                    var csvContent = await reader.ReadToEndAsync();
+
+                    // Assert
+                    Assert.NotEmpty(csvContent);
+                    Assert.Contains("Offer Status,E-mail,First Name,Last Name,Position,Age,Height,Foot,Salary,Additional Information,Club Member's E-mail,Club Member's First Name,Club Member's Last Name,Club Name,League,Region,Creation Date,End Date", csvContent);
+                    Assert.Contains("Offered,lm10@gmail.com,Leo", csvContent);
+                }
             }
         }
     }
