@@ -58,10 +58,10 @@ namespace FootScout_PostgreSQL.WebAPI.IntegrationTests.Controllers
         public async Task GetClubAdvertisement_ReturnsNotFound_WhenClubAdvertisementDoesNotExist()
         {
             // Arrange
-            var playerAdvertisementId = 9999;
+            var clubAdvertisementId = 9999;
 
             // Act
-            var response = await _client.GetAsync($"/api/club-advertisements/{playerAdvertisementId}");
+            var response = await _client.GetAsync($"/api/club-advertisements/{clubAdvertisementId}");
 
             // Assert
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);

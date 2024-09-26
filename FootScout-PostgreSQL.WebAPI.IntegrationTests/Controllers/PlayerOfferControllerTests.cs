@@ -123,7 +123,7 @@ namespace FootScout_PostgreSQL.WebAPI.IntegrationTests.Controllers
         public async Task CreatePlayerOffer_ReturnsOk_WhenDataIsValid()
         {
             // Arrange
-            var adDto = new PlayerOfferCreateDTO
+            var offerDto = new PlayerOfferCreateDTO
             {
                 ClubAdvertisementId = 1,
                 PlayerPositionId = 12,
@@ -136,21 +136,21 @@ namespace FootScout_PostgreSQL.WebAPI.IntegrationTests.Controllers
             };
 
             // Act
-            var response = await _client.PostAsJsonAsync("/api/player-offers", adDto);
+            var response = await _client.PostAsJsonAsync("/api/player-offers", offerDto);
 
             // Assert
             response.EnsureSuccessStatusCode();
             var result = await response.Content.ReadFromJsonAsync<PlayerOffer>();
             Assert.NotNull(result);
-            Assert.Equal(adDto.PlayerPositionId, result.PlayerPositionId);
-            Assert.Equal(adDto.Age, result.Age);
-            Assert.Equal(adDto.Height, result.Height);
-            Assert.Equal(adDto.PlayerFootId, result.PlayerFootId);
-            Assert.Equal(adDto.Salary, result.Salary);
-            Assert.Equal(adDto.PlayerId, result.PlayerId);
+            Assert.Equal(offerDto.PlayerPositionId, result.PlayerPositionId);
+            Assert.Equal(offerDto.Age, result.Age);
+            Assert.Equal(offerDto.Height, result.Height);
+            Assert.Equal(offerDto.PlayerFootId, result.PlayerFootId);
+            Assert.Equal(offerDto.Salary, result.Salary);
+            Assert.Equal(offerDto.PlayerId, result.PlayerId);
 
-            var clubOffer = await _fixture.DbContext.PlayerOffers.FirstOrDefaultAsync(po => po.PlayerPositionId == adDto.PlayerPositionId && po.Age == adDto.Age && po.Height == adDto.Height && po.PlayerFootId == adDto.PlayerFootId && po.Salary == adDto.Salary && po.PlayerId == adDto.PlayerId);
-            _fixture.DbContext.PlayerOffers.Remove(clubOffer);
+            var playerOffer = await _fixture.DbContext.PlayerOffers.FirstOrDefaultAsync(po => po.PlayerPositionId == offerDto.PlayerPositionId && po.Age == offerDto.Age && po.Height == offerDto.Height && po.PlayerFootId == offerDto.PlayerFootId && po.Salary == offerDto.Salary && po.PlayerId == offerDto.PlayerId);
+            _fixture.DbContext.PlayerOffers.Remove(playerOffer);
             await _fixture.DbContext.SaveChangesAsync();
         }
 
@@ -187,11 +187,11 @@ namespace FootScout_PostgreSQL.WebAPI.IntegrationTests.Controllers
         public async Task UpdatePlayerOffer_ReturnsNotFound_WhenPlayerOfferDoesNotExist()
         {
             // Arrange
-            var clubAdvertisementId = 2;
-            var advertisementToUpdate = await _fixture.DbContext.PlayerOffers.FirstAsync();
+            var playerOfferId = 2;
+            var offeroUpdate = await _fixture.DbContext.PlayerOffers.FirstAsync();
 
             // Act
-            var response = await _client.PutAsJsonAsync($"/api/player-offers/{clubAdvertisementId}", advertisementToUpdate);
+            var response = await _client.PutAsJsonAsync($"/api/player-offers/{playerOfferId}", offeroUpdate);
 
             // Assert
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -201,7 +201,7 @@ namespace FootScout_PostgreSQL.WebAPI.IntegrationTests.Controllers
         public async Task DeletePlayerOffer_RemovesPlayerOffer()
         {
             // Arrange
-            var newAd = new PlayerOfferCreateDTO
+            var newOffer = new PlayerOfferCreateDTO
             {
                 ClubAdvertisementId = 1,
                 PlayerPositionId = 12,
@@ -212,11 +212,11 @@ namespace FootScout_PostgreSQL.WebAPI.IntegrationTests.Controllers
                 AdditionalInformation = "no info",
                 PlayerId = "leomessi"
             };
-            var response = await _client.PostAsJsonAsync("/api/player-offers", newAd);
-            var clubOffer = await _fixture.DbContext.PlayerOffers.FirstOrDefaultAsync(po => po.PlayerPositionId == newAd.PlayerPositionId && po.Age == newAd.Age && po.Height == newAd.Height && po.PlayerFootId == newAd.PlayerFootId && po.Salary == newAd.Salary && po.PlayerId == newAd.PlayerId);
+            var response = await _client.PostAsJsonAsync("/api/player-offers", newOffer);
+            var playerOffer = await _fixture.DbContext.PlayerOffers.FirstOrDefaultAsync(po => po.PlayerPositionId == newOffer.PlayerPositionId && po.Age == newOffer.Age && po.Height == newOffer.Height && po.PlayerFootId == newOffer.PlayerFootId && po.Salary == newOffer.Salary && po.PlayerId == newOffer.PlayerId);
 
             // Act
-            var deleteResponse = await _client.DeleteAsync($"/api/player-offers/{clubOffer.Id}");
+            var deleteResponse = await _client.DeleteAsync($"/api/player-offers/{playerOffer.Id}");
 
             // Assert
             Assert.Equal(HttpStatusCode.NoContent, deleteResponse.StatusCode);
@@ -226,7 +226,7 @@ namespace FootScout_PostgreSQL.WebAPI.IntegrationTests.Controllers
         public async Task AcceptPlayerOffer_ReturnsNoContent_WhenPlayerOfferExists()
         {
             // Arrange
-            var newAd = new PlayerOfferCreateDTO
+            var newOffer = new PlayerOfferCreateDTO
             {
                 ClubAdvertisementId = 1,
                 PlayerPositionId = 12,
@@ -237,7 +237,7 @@ namespace FootScout_PostgreSQL.WebAPI.IntegrationTests.Controllers
                 AdditionalInformation = "no info",
                 PlayerId = "leomessi"
             };
-            var response1 = await _client.PostAsJsonAsync("/api/player-offers", newAd);
+            var response1 = await _client.PostAsJsonAsync("/api/player-offers", newOffer);
             var offerToAccept = await _fixture.DbContext.PlayerOffers.FirstOrDefaultAsync(co => co.Salary == 234);
 
             // Act
@@ -256,11 +256,11 @@ namespace FootScout_PostgreSQL.WebAPI.IntegrationTests.Controllers
         public async Task AcceptPlayerOffer_ReturnsNotFound_WhenPlayerOfferDoesNotExist()
         {
             // Arrange
-            var clubAdvertisementId = 2;
-            var advertisementToUpdate = await _fixture.DbContext.PlayerOffers.FirstAsync();
+            var playerOfferId = 2;
+            var offerToAccept = await _fixture.DbContext.PlayerOffers.FirstAsync();
 
             // Act
-            var response = await _client.PutAsJsonAsync($"/api/player-offers/accept/{clubAdvertisementId}", advertisementToUpdate);
+            var response = await _client.PutAsJsonAsync($"/api/player-offers/accept/{playerOfferId}", offerToAccept);
 
             // Assert
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
@@ -270,7 +270,7 @@ namespace FootScout_PostgreSQL.WebAPI.IntegrationTests.Controllers
         public async Task RejectPlayerOffer_ReturnsNoContent_WhenPlayerOfferExists()
         {
             // Arrange
-            var newAd = new PlayerOfferCreateDTO
+            var newOffer = new PlayerOfferCreateDTO
             {
                 ClubAdvertisementId = 1,
                 PlayerPositionId = 12,
@@ -281,7 +281,7 @@ namespace FootScout_PostgreSQL.WebAPI.IntegrationTests.Controllers
                 AdditionalInformation = "no info",
                 PlayerId = "leomessi"
             };
-            var response1 = await _client.PostAsJsonAsync("/api/player-offers", newAd);
+            var response1 = await _client.PostAsJsonAsync("/api/player-offers", newOffer);
             var offerToAccept = await _fixture.DbContext.PlayerOffers.FirstOrDefaultAsync(co => co.Salary == 235);
 
             // Act
@@ -300,11 +300,11 @@ namespace FootScout_PostgreSQL.WebAPI.IntegrationTests.Controllers
         public async Task RejectPlayerOffer_ReturnsNotFound_WhenPlayerOfferDoesNotExist()
         {
             // Arrange
-            var clubAdvertisementId = 2;
-            var advertisementToUpdate = await _fixture.DbContext.PlayerOffers.FirstAsync();
+            var playerOfferId = 2;
+            var offerToReject = await _fixture.DbContext.PlayerOffers.FirstAsync();
 
             // Act
-            var response = await _client.PutAsJsonAsync($"/api/player-offers/reject/{clubAdvertisementId}", advertisementToUpdate);
+            var response = await _client.PutAsJsonAsync($"/api/player-offers/reject/{playerOfferId}", offerToReject);
 
             // Assert
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -314,11 +314,11 @@ namespace FootScout_PostgreSQL.WebAPI.IntegrationTests.Controllers
         public async Task GetPlayerOfferStatusId_ReturnsOk_WhenPlayerOfferExists()
         {
             // Arrange
-            var clubOfferId = 2;
+            var playerOfferId = 2;
             var playerId = "leomessi";
 
             // Act
-            var response = await _client.GetAsync($"/api/player-offers/status/{clubOfferId}/{playerId}");
+            var response = await _client.GetAsync($"/api/player-offers/status/{playerOfferId}/{playerId}");
 
             // Assert
             response.EnsureSuccessStatusCode();
