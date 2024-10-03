@@ -12,7 +12,6 @@ using FootScout_PostgreSQL.WebAPI.Services.Interfaces;
 using FootScout_PostgreSQL.WebAPI.Services.Classes;
 using FootScout_PostgreSQL.WebAPI.Repositories.Classes;
 using FootScout_PostgreSQL.WebAPI.HubManager;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Npgsql;
 
 namespace FootScout_PostgreSQL.WebAPI
@@ -81,6 +80,7 @@ namespace FootScout_PostgreSQL.WebAPI
             builder.Services.AddScoped<ICookieService, CookieService>();
             builder.Services.AddScoped<IChatService, ChatService>();
             builder.Services.AddScoped<IMessageService, MessageService>();
+            builder.Services.AddScoped<IPerformanceTestsService, PerformanceTestsService>();
 
             // Repositories
             builder.Services.AddScoped<IPlayerPositionRepository, PlayerPositionRepository>();
