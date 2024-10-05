@@ -300,7 +300,7 @@ namespace FootScout_PostgreSQL.WebAPI.Services.Classes
             await _dbContext.SaveChangesAsync();
 
             // club advertisements
-            var salaryRangeIds = await _dbContext.SalaryRanges.Select(sr => sr.Id).Take(testCounter).ToListAsync();
+            var salaryRangeIds = await _dbContext.SalaryRanges.Select(sr => sr.Id).ToListAsync();
             for (int i = 1; i <= testCounter; i++)
             {
                 clubAdvertisements.Add(new ClubAdvertisement
@@ -310,7 +310,7 @@ namespace FootScout_PostgreSQL.WebAPI.Services.Classes
                     ClubName = $"ClubName {i}",
                     League = $"League {i}",
                     Region = $"Region {i}",
-                    SalaryRangeId = testCounter + salaryRangeIds[i - 1],
+                    SalaryRangeId = salaryRangeIds[testCounter + i - 1],
                     CreationDate = DateTime.UtcNow,
                     EndDate = DateTime.UtcNow.AddDays(30),
                     ClubMemberId = $"user{i}"

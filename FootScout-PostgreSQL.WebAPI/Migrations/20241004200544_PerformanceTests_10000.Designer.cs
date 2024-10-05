@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FootScout_PostgreSQL.WebAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241003160810_PerformanceTests_1_1000")]
-    partial class PerformanceTests_1_1000
+    [Migration("20241004200544_PerformanceTests_10000")]
+    partial class PerformanceTests_10000
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

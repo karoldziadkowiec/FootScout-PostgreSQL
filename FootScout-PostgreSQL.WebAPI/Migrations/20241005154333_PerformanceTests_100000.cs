@@ -5,7 +5,7 @@
 namespace FootScout_PostgreSQL.WebAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class PerformanceTests_1_1000 : Migration
+    public partial class PerformanceTests_100000 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
