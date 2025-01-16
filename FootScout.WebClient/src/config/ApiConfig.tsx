@@ -1,4 +1,4 @@
-const ApiPORT: number = 7104;    // PostgreSQL
+const ApiPORT: number = 7104;
 
 const ApiURL: string = `https://localhost:${ApiPORT}/api`;
 export default ApiURL;
